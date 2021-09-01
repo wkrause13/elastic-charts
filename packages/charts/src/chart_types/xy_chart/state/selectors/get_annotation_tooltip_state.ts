@@ -79,6 +79,7 @@ function getAnnotationTooltipState(
     annotationDimensions,
     hoveredDOMElement,
   );
+
   if (hoveredTooltip) {
     return hoveredTooltip;
   }
@@ -113,7 +114,8 @@ function getAnnotationTooltipState(
   return tooltipState;
 }
 
-function getTooltipStateForDOMElements(
+/** @internal */
+export function getTooltipStateForDOMElements(
   chartDimensions: Dimensions,
   annotationSpecs: AnnotationSpec[],
   annotationDimensions: Map<AnnotationId, AnnotationDimensions>,
@@ -137,6 +139,7 @@ function getTooltipStateForDOMElements(
   }
 
   return {
+    id: spec.id,
     isVisible: true,
     annotationType: AnnotationType.Line,
     datum: dimension.datum,
@@ -151,6 +154,7 @@ function getTooltipStateForDOMElements(
     tooltipSettings: getTooltipSettings(spec),
   };
 }
+
 function isAnnotationLineProps(prop: AnnotationLineProps | AnnotationRectProps): prop is AnnotationLineProps {
   return 'linePathPoints' in prop;
 }

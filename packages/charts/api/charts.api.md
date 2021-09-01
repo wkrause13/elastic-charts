@@ -41,6 +41,12 @@ export interface AngleFromTo {
     x1: Radian;
 }
 
+// @public (undocumented)
+export type AnnotationClickListener = (annotations: {
+    rects: RectAnnotationEvent[];
+    lines: LineAnnotationEvent[];
+}) => void;
+
 // @public
 export const AnnotationDomainType: Readonly<{
     XDomain: "xDomain";
@@ -1214,6 +1220,12 @@ export interface LineAnnotationDatum {
 }
 
 // @public (undocumented)
+export type LineAnnotationEvent = {
+    id: SpecId;
+    datum: LineAnnotationDatum;
+};
+
+// @public (undocumented)
 export type LineAnnotationSpec = BaseAnnotationSpec<typeof AnnotationType.Line, LineAnnotationDatum, LineAnnotationStyle> & {
     domainType: AnnotationDomainType;
     marker?: ReactNode | ComponentWithAnnotationDatum;
@@ -1580,6 +1592,12 @@ export interface RectAnnotationDatum {
 }
 
 // @public (undocumented)
+export type RectAnnotationEvent = {
+    id: SpecId;
+    datum: RectAnnotationDatum;
+};
+
+// @public (undocumented)
 export type RectAnnotationSpec = BaseAnnotationSpec<typeof AnnotationType.Rectangle, RectAnnotationDatum, RectAnnotationStyle> & {
     renderTooltip?: AnnotationTooltipFormatter;
     zIndex?: number;
@@ -1790,6 +1808,7 @@ export interface SettingsSpec extends Spec, LegendSpec {
     hideDuplicateAxes: boolean;
     minBrushDelta?: number;
     noResults?: ComponentType | ReactChild;
+    onAnnotationClick?: AnnotationClickListener;
     // (undocumented)
     onBrushEnd?: BrushEndListener;
     // (undocumented)
