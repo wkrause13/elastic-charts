@@ -8,6 +8,8 @@
 
 import { PlaywrightTestConfig } from '@playwright/test';
 
+const isCI = process.env.CI === 'true';
+
 const config: PlaywrightTestConfig = {
   use: {
     headless: true,
@@ -15,21 +17,28 @@ const config: PlaywrightTestConfig = {
     viewport: { width: 785, height: 600 },
     trace: 'off',
     screenshot: 'off', // already testing screenshots
-    video: process.env.CI ? 'off' : 'retain-on-failure',
+    video: 'retain-on-failure',
     launchOptions: {
       ignoreDefaultArgs: ['--hide-scrollbars'],
+      args: ['--use-gl=egl'],
     },
   },
-  reporter: process.env.CI ? 'github' : [['html', { open: 'never', outputFolder: 'report' }], ['list']],
+  reporter: [['html', { open: 'never', outputFolder: 'html_report' }], isCI ? ['line'] : ['list']],
   expect: {
-    toMatchSnapshot: { threshold: 0 },
+    toMatchSnapshot: {
+      threshold: 0,
+      // This is to allow a 2 px diff whenever expectChartWithMouseAtUrlToMatchScreenshot is used
+      // https://buildkite.com/elastic/elastic-charts-ci/builds/237#36e8d2d7-2cc0-473b-9c10-1fdab7df1fef/162
+      maxDiffPixels: 4,
+    },
   },
-  forbidOnly: Boolean(process.env.CI),
+  forbidOnly: isCI,
   timeout: 10 * 1000,
   preserveOutput: 'failures-only',
   snapshotDir: 'screenshots',
   testDir: 'tests',
-  outputDir: 'test-failures',
+  outputDir: 'test_failures',
+  fullyParallel: true, // all tests must be independent
   projects: [
     {
       name: 'chrome',

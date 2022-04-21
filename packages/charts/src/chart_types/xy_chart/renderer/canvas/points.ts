@@ -8,12 +8,11 @@
 
 import { overrideOpacity } from '../../../../common/color_library_wrappers';
 import { SeriesKey } from '../../../../common/series_id';
-import { Circle, Fill, Stroke } from '../../../../geoms/types';
+import { Circle, Fill, Rect, Stroke } from '../../../../geoms/types';
 import { Rotation } from '../../../../utils/common';
 import { Dimensions } from '../../../../utils/dimensions';
 import { PointGeometry } from '../../../../utils/geometry';
 import { GeometryStateStyle } from '../../../../utils/themes/theme';
-import { getPanelClipping } from './panel_clipping';
 import { renderShape } from './primitives/shapes';
 import { withPanelTransform } from './utils/panel_transform';
 
@@ -48,6 +47,7 @@ export function renderPointGroup(
   geometryStateStyles: Record<SeriesKey, GeometryStateStyle>,
   rotation: Rotation,
   renderingArea: Dimensions,
+  clippings: Rect,
   shouldClip: boolean,
 ) {
   points
@@ -62,7 +62,6 @@ export function renderPointGroup(
       };
       const coordinates: Circle = { x: x + transform.x, y, radius };
       const renderer = () => renderShape(ctx, style.shape, coordinates, fill, stroke);
-      const clippings = { area: getPanelClipping(panel, rotation), shouldClip };
-      withPanelTransform(ctx, panel, rotation, renderingArea, renderer, clippings);
+      withPanelTransform(ctx, panel, rotation, renderingArea, renderer, { area: clippings, shouldClip });
     });
 }

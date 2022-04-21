@@ -37,14 +37,11 @@ const data = dg.generateGroupedSeries(numOfDays, 6, 'metric ').map((d) => {
     x: DateTime.fromISO('2020-01-01T00:00:00Z').plus({ days: d.x }).toMillis(),
   };
 });
-const dataForLogScale = data.map((d) => ({ ...d, y: d.y - 3 }));
 
 export const Example = () => {
   const showLegend = boolean('Show Legend', true);
   const onElementClick = action('onElementClick');
   const tickTimeFormatter = timeFormatter(niceTimeFormatByDay(numOfDays));
-  const useLogScale = boolean('Use log scale (different data)', false);
-
   return (
     <Chart>
       <Settings
@@ -84,12 +81,12 @@ export const Example = () => {
       <AreaSeries
         id="line"
         xScaleType={ScaleType.Time}
-        yScaleType={useLogScale ? ScaleType.Log : ScaleType.Linear}
+        yScaleType={ScaleType.Linear}
         timeZone="local"
         xAccessor="x"
         yAccessors={['y']}
         color={LIGHT_THEME.colors.vizColors[1]}
-        data={useLogScale ? dataForLogScale : data}
+        data={data}
       />
     </Chart>
   );

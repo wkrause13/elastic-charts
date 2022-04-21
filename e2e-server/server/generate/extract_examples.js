@@ -9,7 +9,6 @@
 const fs = require('fs');
 const path = require('path');
 
-const lodash = require('lodash');
 const slugify = require('slugify');
 const ts = require('typescript');
 
@@ -32,7 +31,7 @@ function extractExamples(exampleRelativePath = 'storybook/stories') {
   // eslint-disable-next-line no-console
   console.log('Extract examples from', path.join(process.cwd(), exampleRelativePath));
 
-  const fileNames = readdirSync(exampleRelativePath).filter((item) => lodash.includes(item, '.stories.ts'));
+  const fileNames = readdirSync(exampleRelativePath).filter((item) => item.includes('.stories.ts'));
 
   // eslint-disable-next-line no-console
   console.log('Total example files:', fileNames.length);
@@ -51,7 +50,7 @@ function extractExamples(exampleRelativePath = 'storybook/stories') {
       // Visit every sourceFile in the program
       program
         .getSourceFiles()
-        .filter((sourceFile) => lodash.includes(sourceFile.fileName, groupFile))
+        .filter(({ fileName }) => fileName === groupFile)
         .forEach((sourceFile) => {
           ts.forEachChild(sourceFile, (node) => {
             // get the default export

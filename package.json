@@ -12,6 +12,7 @@
     ]
   },
   "scripts": {
+    "run:bk:step": "cd .buildkite && yarn run:step",
     "prepack": "echo 'This package is not published, see pacakges/*' && exit 1",
     "autoprefix:css": "lerna run --loglevel=silent --scope @elastic/charts autoprefix:css --stream --no-prefix",
     "api:check": "lerna run --loglevel=silent --scope @elastic/charts api:check --stream --no-prefix",
@@ -31,7 +32,8 @@
     "cz": "git-cz",
     "lint": "NODE_ENV=production eslint --quiet --ext .tsx,.ts,.js .",
     "lint:fix": "yarn lint --fix",
-    "lint:fix:it": "NODE_ENV=production eslint --quiet --fix --ext .tsx,.ts,.js",
+    "lint:it": "NODE_ENV=production eslint --quiet --ext .tsx,.ts,.js",
+    "lint:fix:it": "yarn lint:it --fix",
     "prettier:check": "prettier --check \"**/*.{json,html,css,scss}\"",
     "playground": "cd playground && RNG_SEED='elastic-charts' webpack serve",
     "pq": "pretty-quick",
@@ -73,7 +75,7 @@
     "@commitlint/cli": "^12.1.1",
     "@commitlint/config-conventional": "^12.1.1",
     "@elastic/datemath": "^5.0.3",
-    "@elastic/eui": "^54.1.0",
+    "@elastic/eui": "^54.0.0",
     "@mdx-js/loader": "^1.6.6",
     "@microsoft/api-documenter": "^7.13.63",
     "@microsoft/api-extractor": "^7.18.16",
