@@ -59,6 +59,9 @@ export const bkEnv = (() => {
     checkId,
     username,
     isPullRequest,
+    isMaster: branch === 'alpha',
+    // TODO but this back after testing
+    // isMaster: branch === 'master',
     pullRequestNumber,
     buildUrl: env.buildUrl,
     canModifyPR: process.env.GITHUB_PR_MAINTAINER_CAN_MODIFY === 'true',

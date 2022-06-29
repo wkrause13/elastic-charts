@@ -395,8 +395,8 @@ export async function updatePreviousDeployments(
 
 export async function getFileDiffs(): Promise<string[]> {
   if (!bkEnv.isPullRequest) return [];
-  const prNumber = bkEnv.pullRequestNumber;
 
+  const prNumber = bkEnv.pullRequestNumber;
   if (!prNumber) throw new Error(`Failed to set status, no prNumber available`);
 
   try {
@@ -447,7 +447,7 @@ export async function ghpDeploy(outDir: string) {
     ghpages.publish(
       outDir,
       {
-        silent: true,
+        silent: false,
         branch: 'gh-pages',
         message: `Deploying ${bkEnv.commit ?? 'latest changes'} 🚀`,
         repo: `https://git:${token}@github.com/elastic/elastic-charts.git`,
